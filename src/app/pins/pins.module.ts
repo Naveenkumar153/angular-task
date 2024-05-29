@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PinComponent } from './pin/pin.component';
+import { NgxSelectModule } from 'ngx-select-ex';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -9,7 +11,13 @@ import { PinComponent } from './pin/pin.component';
     PinComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    NgxSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
+  exports:[
+    PinComponent
   ]
 })
 export class PinsModule { }

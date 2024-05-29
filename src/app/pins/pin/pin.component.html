@@ -1,1 +1,99 @@
-<p>pin works!</p>
+<!-- Pins popup -->
+  <!-- The Modal -->
+  <div class="modal"  [ngStyle]="{'display': openModel.display}">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Add Pins</h4>
+          <button type="button" class="btn-close"  (click)="openModel.display = 'none'"></button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+            <form [formGroup]="pinForm" (ngSubmit)="onPinSubmit()" class="model-form">
+                <div class="row g-3 align-items-center">
+                  <div class="col-12">
+                    <div class="font-control d-flex justify-content-between align-content-center">
+                      <label for="inputName" class="col-form-label input-label">
+                        Title
+                        <span class="required">
+                          *
+                        </span>
+                      </label>
+                      <input type="text" id="inputName" formControlName="title" class="form-control pinsinput" aria-describedby="passwordHelpInline">
+                    </div>
+                    <div *ngIf="pinForm.get('title')?.invalid && pinForm.get('title')?.touched" class="text-danger pins-error-text">
+                      Title is required
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="font-control d-flex justify-content-between align-content-center">
+                      <label for="selectedImg" class="col-form-label input-label">
+                        Select Image 
+                        <span class="required"> * </span>
+                      </label>
+                      <!-- <input type="file" id="inputEmail" formControlName="selectImg" class="form-control pinsinput" aria-describedby="passwordHelpInline"> -->
+                      <input type="file" id="selectedImg"  class="form-control pinsinput" 
+                      (change)="onFileChange($event)" #fileInput>
+                    </div>
+                    <div *ngIf="pinForm.get('selectImg')?.invalid && pinForm.get('selectImg')?.touched" 
+                         class="text-danger pins-error-text">
+                      <div *ngIf="pinForm.get('selectImg')?.errors?.['required']">Img is required</div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="font-control d-flex justify-content-between align-content-center">
+                      <label for="inputRegion" class="col-form-label input-label">
+                        Collaborators
+                        <span class="required"> * </span>     
+                      </label>
+                      <ngx-select [multiple]="true"
+                                  [items]="collaborators"
+                                  [disabled]="false"
+                                  [(ngModel)]="collaboratorsNgxValue"
+                                  [autoClearSearch]="true"
+                                  [optionValueField]="'name'"
+                                  formControlName="collaborators"
+                                  placeholder="Selected Collaborators"
+                                  (selectionChanges)="doSelectOptionsCollaborators($event)"
+                                  class="pinsinput">
+                      </ngx-select>
+                    </div>
+                    <div *ngIf="pinForm.get('collaborators')?.invalid && pinForm.get('collaborators')?.touched" class="text-danger pins-error-text">
+                      Collaborators is required
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="font-control d-flex align-content-center">
+                      <label for="inputRegion" class="col-form-label input-label">
+                        Privacy
+                        <span class="required"> * </span>
+                      </label>
+                      <div class="d-flex align-content-center ">
+                        <ng-container *ngFor="let item of checkBox">
+                          <div class="form-check mx-3">
+                            <input class="form-check-input " type="radio" [name]="item.id" [id]="item.name"  
+                            formControlName="privacy" [value]="item.value">
+                            <label class="form-check-label" [for]="item.name">
+                              {{ item.value }}
+                            </label>
+                          </div>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mb-3 mt-4">
+                  <div class="col-12 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary">Create Pin</button>
+                  </div>
+                </div>
+              </form>
+      
+        </div>
+
+      </div>
+    </div>
+  </div>
