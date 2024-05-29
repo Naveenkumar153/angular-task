@@ -21,4 +21,11 @@ export interface Customers{
    country:string[];
    region:string[];
 }
+
+export interface DataSource{
+  title:string,
+  privacy:string,
+  selectImg:string,
+  collaborators:string[]
+}
   
