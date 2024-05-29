@@ -6,6 +6,11 @@
     margin: 0 auto; 
     padding: 50px 0px;
 }
+.image-size{
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
 
 .modal-body{
     .model-form{
@@ -17,8 +22,15 @@
         }
 
         .error-text{
-            width: 60%;
-            text-align: center;
+            margin-left: 80px;
+        }
+
+        .pinsinput{
+            width: 350px !important;
+        }
+
+        .pins-error-text{
+            margin-left: 115px;
         }
     }
 }

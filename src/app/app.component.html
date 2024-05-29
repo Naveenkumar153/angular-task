@@ -1,14 +1,15 @@
 <div class="container pins-table">
     <div class="row">
         <div class="col-12">
-            List of pins
+            <h3>List of pins</h3>
         </div>
         <div class="col-12 d-flex justify-content-end">
            <div class="buttons">
               <button type="button" class="btn btn-primary mx-2"
-               data-bs-toggle="modal" data-bs-target="#myModal">Add Customer</button>
-              <button type="button" class="btn btn-primary mx-2"
-              data-bs-toggle="modal" data-bs-target="#myModal1">Add pins</button>
+                  (click)="openCustomerModalDialog()" >Add Customer</button>
+              <button type="button" class="btn btn-primary mx-2" 
+              (click)="openPinsModalDialog()"
+              >Add pins</button>
            </div>
         </div>
     </div>
@@ -27,7 +28,7 @@
                     <tr *ngFor="let item of dataSource">
                         <td>{{ item.title }}</td>
                         <td>
-                            <img [src]="item.image" alt="Image 1" class="img-fluid" style="max-width: 100px;">
+                            <img [src]="item.selectImg" alt="Image 1" class="img-fluid image-size" >
                         </td>
                         <td>{{ item.collaborators }}</td>
                         <td>{{ item.privacy }}</td>
@@ -43,177 +44,8 @@
     </div>
 </div>
 
+<app-customer [openModel]="openCustomerModal" (updatedDataSource)="updatedFormCustomers($event)" ></app-customer>
+<app-pin [openModel]="openPinsModel" (updatedDataSource)="updatedDataSource($event)" [getAllCollaborators]="collaborators"></app-pin>
 
-<!-- Customer popup -->
-  <!-- The Modal -->
-  <div class="modal" id="myModal">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-  
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Add New Customer</h4>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-  
-        <!-- Modal body -->
-        <div class="modal-body">
-            <form [formGroup]="customerForm" (ngSubmit)="onSubmit()" class="model-form">
-                <div class="row g-3 align-items-center">
-                  <div class="col-12">
-                    <div class="font-control d-flex justify-content-between align-content-center">
-                      <label for="inputName" class="col-form-label input-label">Name</label>
-                      <input type="text" id="inputName" formControlName="name" class="form-control input" aria-describedby="passwordHelpInline">
-                    </div>
-                    <div *ngIf="customerForm.get('name')?.invalid && customerForm.get('name')?.touched" class="text-danger error-text">
-                      Name is required
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="font-control d-flex justify-content-between align-content-center">
-                      <label for="inputEmail" class="col-form-label input-label">Email</label>
-                      <input type="email" id="inputEmail" formControlName="email" class="form-control input" aria-describedby="passwordHelpInline">
-                    </div>
-                    <div *ngIf="customerForm.get('email')?.invalid && customerForm.get('email')?.touched" 
-                         class="text-danger error-text">
-                      <div *ngIf="customerForm.get('email')?.errors?.['required']">Email is required</div>
-                      <div *ngIf="customerForm.get('email')?.errors?.['email']">Invalid email format</div>
-                      <div *ngIf="customerForm.get('email')?.errors?.['duplicate']">This email exist</div>
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="font-control d-flex justify-content-between align-content-center">
-                      <label for="inputRegion" class="col-form-label input-label">Region</label>
-                      <ngx-select [multiple]="true"
-                                  [items]="regions"
-                                  [disabled]="false"
-                                  [(ngModel)]="regionsNgxValue"
-                                  [autoClearSearch]="true"
-                                  formControlName="region"
-                                  placeholder="Selected Region"
-                                  (selectionChanges)="doSelectOptions($event)"
-                                  class="input">
-                      </ngx-select>
-                    </div>
-                    <div *ngIf="customerForm.get('region')?.invalid && customerForm.get('region')?.touched" class="text-danger error-text">
-                      Region is required
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="font-control d-flex justify-content-between align-content-center">
-                      <label for="inputCountry" class="col-form-label input-label">Country</label>
-                      <ngx-select [multiple]="true"
-                                  [items]="countrys"
-                                  [disabled]="false"
-                                  [(ngModel)]="countrysNgxValue"
-                                  [autoClearSearch]="true"
-                                  formControlName="country"
-                                  placeholder="Selected Country"
-                                  (selectionChanges)="doSelectOptionsCountrys($event)"
-                                  class="input">
-                      </ngx-select>
-                    </div>
-                    <div *ngIf="customerForm.get('country')?.invalid && customerForm.get('country')?.touched" class="text-danger error-text">
-                      Country is required
-                    </div>
-                  </div>
-                </div>
-                <div class="row mb-3 mt-4">
-                  <div class="col-12 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary">Create Customer</button>
-                  </div>
-                </div>
-              </form>
-      
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-<!-- Pins popup -->
-  <!-- The Modal -->
-  <div class="modal" id="myModal1">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-  
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Add Pins</h4>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-  
-        <!-- Modal body -->
-        <div class="modal-body">
-            <form [formGroup]="customerForm" (ngSubmit)="onSubmit()" class="model-form">
-                <div class="row g-3 align-items-center">
-                  <div class="col-12">
-                    <div class="font-control d-flex justify-content-between align-content-center">
-                      <label for="inputName" class="col-form-label input-label">Name</label>
-                      <input type="text" id="inputName" formControlName="name" class="form-control input" aria-describedby="passwordHelpInline">
-                    </div>
-                    <div *ngIf="customerForm.get('name')?.invalid && customerForm.get('name')?.touched" class="text-danger error-text">
-                      Name is required
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="font-control d-flex justify-content-between align-content-center">
-                      <label for="inputEmail" class="col-form-label input-label">Email</label>
-                      <input type="email" id="inputEmail" formControlName="email" class="form-control input" aria-describedby="passwordHelpInline">
-                    </div>
-                    <div *ngIf="customerForm.get('email')?.invalid && customerForm.get('email')?.touched" 
-                         class="text-danger error-text">
-                      <div *ngIf="customerForm.get('email')?.errors?.['required']">Email is required</div>
-                      <div *ngIf="customerForm.get('email')?.errors?.['email']">Invalid email format</div>
-                      <div *ngIf="customerForm.get('email')?.errors?.['duplicate']">This email exist</div>
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="font-control d-flex justify-content-between align-content-center">
-                      <label for="inputRegion" class="col-form-label input-label">Region</label>
-                      <ngx-select [multiple]="true"
-                                  [items]="regions"
-                                  [disabled]="false"
-                                  [(ngModel)]="regionsNgxValue"
-                                  [autoClearSearch]="true"
-                                  formControlName="region"
-                                  placeholder="Selected Region"
-                                  (selectionChanges)="doSelectOptions($event)"
-                                  class="input">
-                      </ngx-select>
-                    </div>
-                    <div *ngIf="customerForm.get('region')?.invalid && customerForm.get('region')?.touched" class="text-danger error-text">
-                      Region is required
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="font-control d-flex justify-content-between align-content-center">
-                      <label for="inputCountry" class="col-form-label input-label">Country</label>
-                      <ngx-select [multiple]="true"
-                                  [items]="countrys"
-                                  [disabled]="false"
-                                  [(ngModel)]="countrysNgxValue"
-                                  [autoClearSearch]="true"
-                                  formControlName="country"
-                                  placeholder="Selected Country"
-                                  (selectionChanges)="doSelectOptionsCountrys($event)"
-                                  class="input">
-                      </ngx-select>
-                    </div>
-                    <div *ngIf="customerForm.get('country')?.invalid && customerForm.get('country')?.touched" class="text-danger error-text">
-                      Country is required
-                    </div>
-                  </div>
-                </div>
-                <div class="row mb-3 mt-4">
-                  <div class="col-12 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary">Create Customer</button>
-                  </div>
-                </div>
-              </form>
-      
-        </div>
-
-      </div>
-    </div>
-  </div>
+<div [ngClass]="{'modal-backdrop': openCustomerModal.display === 'block' ||  openPinsModel.display === 'block' }">
+</div>
