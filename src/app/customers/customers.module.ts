@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CustomerComponent } from './customer/customer.component';
+import { NgxSelectModule } from 'ngx-select-ex';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -9,7 +11,12 @@ import { CustomerComponent } from './customer/customer.component';
     CustomerComponent
   ],
   imports: [
-    CommonModule
-  ]
+    CommonModule,
+    NgxSelectModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  exports:[
+    CustomerComponent]
 })
 export class CustomersModule { }
