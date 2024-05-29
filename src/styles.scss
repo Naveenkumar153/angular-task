@@ -5,4 +5,14 @@
     padding: 0;
     box-sizing: border-box;
   
-}/* You can add global styles to this file, and also import other style files */
+}
+
+.required{
+   font-size: 15px;
+   color: red;
+}
+
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+  z-index: 999;
+}
